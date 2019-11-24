@@ -1,0 +1,36 @@
+#Visual Studio Files
+Output/
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+TestResults/
+.vshistory/
+.vs
+AssemblyInfo.cs
+*.suo
+*.user
+*.vsmdi
+*.psess
+*.vsp
+*.tmp
+*.tmp_proj
+*.bak
+
+#system files
+[Tt]humbs.db
+desktop.ini
+
+#patch conflict
+*.mine
+*.rej
+*.orig
+*.diff
+*.patch
+*.BACKUP.*.*
+*.BASE.*.*
+*.LOCAL.*.*
+*.REMOTE.*.*
+
+CheckReleaseBuild.cmd
+Customizing_dtag.sln

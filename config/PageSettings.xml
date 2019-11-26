@@ -11,24 +11,24 @@
     <User-Agent>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36</User-Agent>
   </ReguestParameters>
   
-  <Category>
+  <!-- <Category> -->
     <NextCategoryPages>
 	  <Pages>
-		<Page>//nav[@class="next-page"]/a[@class="prefetch list_next_page_button"]/@href</Page>
+			<Page>//nav[@class="next-page"]/a[@class="prefetch list_next_page_button"]/@href</Page>
 	  </Pages>
 	  <RegexUrls>
-		<RegexUrl>demotywatory.pl\/page\/\d+$<RegexUrl>
+			<RegexUrl>demotywatory.pl\/page\/\d+$<RegexUrl>
 	  </RegexUrls>
 	</NextCategoryPages>
 	<NextProductPages>
 	  <Pages>
-		<Page>//section[@class="demots"]/article/div/h2/a/@href</Page>
+			<Page>//section[@class="demots"]/article/div/h2/a/@href</Page>
 	  </Pages>
 	  <RegexUrls>
-		<RegexUrl>demotywatory.pl\/\d+\/<RegexUrl>
+			<RegexUrl>demotywatory.pl\/\d+\/<RegexUrl>
 	  </RegexUrls>
 	</NextProductPages>
-  </Category>
+  <!-- </Category> -->
   
 </PageSettings>
 

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<CategoryPageConfiguration>
+  <NextCategoryPages>
+    <Page>//nav[@class="next-page"]/a[@class="prefetch list_next_page_button"]/@href</Page>
+  </NextCategoryPages>
+  <NextCategoryRegex>
+    <Regex>demotywatory.pl\/page\/\d+$</Regex>
+  </NextCategoryRegex>
+  <NextProductPage>
+    <Page>//section[@class="demots"]/article/div/h2/a/@href</Page>
+  </NextProductPage>
+  <NextProductRegex>
+    <Regex>demotywatory.pl\/\d+\/</Regex>
+  </NextProductRegex>
+</CategoryPageConfiguration>

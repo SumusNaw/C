@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <PageSettings>
-  <MainPage>https://demotywatory.pl/</MainPage>
+  <StartPage>https://demotywatory.pl/</MainPage>
   <StartParam></StartParam>
   <ReguestParameters>
     <Accept>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3</Accept>
@@ -10,8 +10,25 @@
     <Host>demotywatory.pl</Host>
     <User-Agent>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36</User-Agent>
   </ReguestParameters>
-  <NextPages>
-    <NextPage>//nav[@class="next-page"]/a[@class="prefetch list_next_page_button"]/@href</NextPage>
-  </NextPages>
+  
+  <Category>
+    <NextCategoryPages>
+	  <Pages>
+		<Page>//nav[@class="next-page"]/a[@class="prefetch list_next_page_button"]/@href</Page>
+	  </Pages>
+	  <RegexUrls>
+		<RegexUrl>demotywatory.pl\/page\/\d+$<RegexUrl>
+	  </RegexUrls>
+	</NextCategoryPages>
+	<NextProductPages>
+	  <Pages>
+		<Page>//section[@class="demots"]/article/div/h2/a/@href</Page>
+	  </Pages>
+	  <RegexUrls>
+		<RegexUrl>demotywatory.pl\/\d+\/<RegexUrl>
+	  </RegexUrls>
+	</NextProductPages>
+  </Category>
+  
 </PageSettings>
 

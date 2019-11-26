@@ -2,7 +2,7 @@
   "profiles": {
     "Crawler": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\GIT\\C\\config\\PageSettings.xml\""
+      "commandLineArgs": "\"D:\\Tajemnice Wojciecha\\GIT\\C\\config\\demotywatory\\GlobalConfiguration.xml\", \"D:\\Tajemnice Wojciecha\\GIT\\C\\config\\demotywatory\\CategoryPageConfiguration.xml\""
     }
   }
 }

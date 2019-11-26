@@ -19,13 +19,9 @@ namespace Crawler
                 return;
             }
 
-            PageSettings config = Configuration.Read(args[0]);
-
-            HtmlPage htmlPage = new HtmlPage(config.StartPage, config);
-            var doc = htmlPage.GetPage();
-
-
-            var w = new work(config);
+            GlobalConfiguration config = Configuration.Read<GlobalConfiguration>(args[0]);
+            CategoryPageConfiguration categoryConfig = Configuration.Read<CategoryPageConfiguration>(args[1]);
+            
 
             Console.ReadKey();
         }

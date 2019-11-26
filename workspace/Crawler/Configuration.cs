@@ -10,22 +10,22 @@ namespace Crawler
     {
         private static readonly ILog log = new MyLog();
 
-        public static PageSettings Read(string configurationPath)
+        public static T Read<T>(string configurationPath)
         {
             string xmlContent = GetFileContent(configurationPath);
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(PageSettings));
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
                 using (var stringReader = new StringReader(xmlContent))
                 {
-                    return serializer.Deserialize(stringReader) as PageSettings;
+                    return (T)serializer.Deserialize(stringReader);
                 }
             }
             catch (Exception e)
             {
                 log.Error(e.Message, e);
             }
-            return null;
+            return default(T);
         }
 
         private static string GetFileContent(string path)

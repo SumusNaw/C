@@ -5,6 +5,7 @@
   </NextCategoryPages>
   <NextCategoryRegex>
     <Regex>demotywatory.pl\/page\/\d+$</Regex>
+    <Regex>demotywatory.pl\/$</Regex>
   </NextCategoryRegex>
   <NextProductPage>
     <Page>//section[@class="demots"]/article/div/h2/a/@href</Page>

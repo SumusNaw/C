@@ -19,9 +19,12 @@ namespace Crawler
                 return;
             }
 
-            GlobalConfiguration config = Configuration.Read<GlobalConfiguration>(args[0]);
-            CategoryPageConfiguration categoryConfig = Configuration.Read<CategoryPageConfiguration>(args[1]);
-            
+            GlobalConfiguration config = Configuration.Read<GlobalConfiguration>(args[0], logger);
+            CategoryPageConfiguration categoryConfig = Configuration.Read<CategoryPageConfiguration>(args[1], logger);
+
+            Pages pages = new Pages(categoryConfig.NextCategoryRegex, categoryConfig.NextProductRegex, logger);
+
+            Crawler crawler = new Crawler(pages, config, categoryConfig, new ProductPageConfiguration());
 
             Console.ReadKey();
         }

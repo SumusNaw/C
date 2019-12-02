@@ -23,8 +23,10 @@ namespace Crawler
             CategoryPageConfiguration categoryConfig = Configuration.Read<CategoryPageConfiguration>(args[1], logger);
 
             Pages pages = new Pages(categoryConfig.NextCategoryRegex, categoryConfig.NextProductRegex, logger);
+            pages.AddPage(config.StartPage);
 
             Crawler crawler = new Crawler(pages, config, categoryConfig, new ProductPageConfiguration());
+            crawler.Start();
 
             Console.ReadKey();
         }

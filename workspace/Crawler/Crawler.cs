@@ -1,4 +1,5 @@
 ﻿using Crawler.Model;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Crawler
     public class Crawler
     {
         Pages Pages;
-        GlobalConfiguration Config;
+        private readonly GlobalConfiguration Config;
         CategoryPageConfiguration CategoryConfig;
         ProductPageConfiguration ProductConfig;
 
@@ -22,15 +23,32 @@ namespace Crawler
 
         public void Start()
         {
-
+            W();
         }
 
         public void W()
         {
-            Page page = Pages.GetNextPage();
-            HtmlPage.DownloadPageContent(page, Config.RequestParameters);
+            PageHelper pageHelper = new PageHelper(Config.RequestParameters);
+            while (!Pages.IsEmpty())
+            {
+                Page page = Pages.GetNextPage();
+                pageHelper.DownloadPage(page);
 
+                ProcedCategoryPage(page.htmlDocument);
+            }
+        }
 
+        private void ProcedCategoryPage(HtmlDocument doc)
+        {
+            foreach(var nextPageXPath in CategoryConfig.NextCategoryPages)
+            {
+                var x = doc.DocumentNode.SelectNodes(nextPageXPath);
+                foreach(var y in x)
+                {
+                    var h = y.GetAttributeValue("href", "");
+                    Pages.AddPage(h);
+                }
+            }
         }
     }
 }

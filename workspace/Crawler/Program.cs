@@ -21,11 +21,12 @@ namespace Crawler
 
             GlobalConfiguration config = Configuration.Read<GlobalConfiguration>(args[0], logger);
             CategoryPageConfiguration categoryConfig = Configuration.Read<CategoryPageConfiguration>(args[1], logger);
+            ProductPageConfiguration productConfig = Configuration.Read<ProductPageConfiguration>(args[2], logger);
 
-            Pages pages = new Pages(categoryConfig.NextCategoryRegex, categoryConfig.NextProductRegex, logger);
+            Pages pages = new Pages(config.StartPage, categoryConfig.CategoryRegex, categoryConfig.ProductRegex, logger);
             pages.AddPage(config.StartPage);
 
-            Crawler crawler = new Crawler(pages, config, categoryConfig, new ProductPageConfiguration());
+            Crawler crawler = new Crawler(pages, config, categoryConfig, productConfig);
             crawler.Start();
 
             Console.ReadKey();

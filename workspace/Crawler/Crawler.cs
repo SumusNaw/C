@@ -23,18 +23,26 @@ namespace Crawler
 
         public void Start()
         {
-            W();
+            W(1);
         }
 
-        public void W()
+        public void W(int taskNumber)
         {
             PageHelper pageHelper = new PageHelper(Config.RequestParameters);
-            while (!Pages.IsEmpty())
+            while (Pages.TryGetPage(out Page page))
             {
-                Page page = Pages.GetNextPage();
+                Console.WriteLine($"[{taskNumber}]: Start proceed page {page.Url}.");
                 pageHelper.DownloadPage(page);
 
-                ProcedCategoryPage(page.htmlDocument);
+                if (page.CategoryPage)
+                {
+                    ProcedCategoryPage(page.htmlDocument);
+                }
+
+                if (page.ProductPage)
+                {
+                    ProceedProductPage(page.htmlDocument);
+                }
             }
         }
 
@@ -42,11 +50,54 @@ namespace Crawler
         {
             foreach(var nextPageXPath in CategoryConfig.NextCategoryPages)
             {
-                var x = doc.DocumentNode.SelectNodes(nextPageXPath);
-                foreach(var y in x)
+                HtmlNodeCollection hrefNodes = doc.DocumentNode.SelectNodes(nextPageXPath);
+                foreach(HtmlNode hrefNode in hrefNodes)
                 {
-                    var h = y.GetAttributeValue("href", "");
-                    Pages.AddPage(h);
+                    string href = hrefNode.GetAttributeValue("href", "");
+                    Pages.AddCategoryPage(href);
+                }
+            }
+
+            foreach (var nextPageXPath in CategoryConfig.NextProductPages)
+            {
+                HtmlNodeCollection hrefNodes = doc.DocumentNode.SelectNodes(nextPageXPath);
+                foreach (HtmlNode hrefNode in hrefNodes)
+                {
+                    string href = hrefNode.GetAttributeValue("href", "");
+                    Pages.AddProductPage(href);
+                }
+            }
+
+            foreach (var nextPageXPath in CategoryConfig.NextPages)
+            {
+                HtmlNodeCollection hrefNodes = doc.DocumentNode.SelectNodes(nextPageXPath);
+                foreach (HtmlNode hrefNode in hrefNodes)
+                {
+                    string href = hrefNode.GetAttributeValue("href", "");
+                    Pages.AddPage(href);
+                }
+            }
+        }
+
+        private void ProceedProductPage(HtmlDocument doc)
+        {
+            switch (ProductConfig.PageType)
+            {
+                case ProductPageTypes.Image:
+                    ProceedImagePageType(doc);
+                    break;
+            }
+        }
+
+        private void ProceedImagePageType(HtmlDocument doc)
+        {
+            foreach (var imageXPath in ProductConfig.Images)
+            {
+                HtmlNodeCollection hrefNodes = doc.DocumentNode.SelectNodes(imageXPath);
+                foreach (HtmlNode hrefNode in hrefNodes)
+                {
+                    string href = hrefNode.GetAttributeValue("src", "");
+                    Console.WriteLine(href);
                 }
             }
         }

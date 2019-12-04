@@ -65,6 +65,7 @@ namespace Crawler
             request.Accept = _RequestParameters.Accept;
             request.KeepAlive = _RequestParameters.Connection.Equals("keep-alive");
             request.Host = _RequestParameters.Host;
+            request.Referer = 
 
             return request;
         }

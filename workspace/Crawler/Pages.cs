@@ -10,14 +10,16 @@ namespace Crawler
 {
     public class Pages
     {
-        private readonly ILog Logger ;
+        private readonly ILog Logger;
+        private readonly string _Host;
         private readonly ConcurrentQueue<Page> _CategoryPages;
         private readonly ConcurrentQueue<Page> _ProductPages;
         private readonly HashSet<string> _AllHistoryPages;
         private readonly IEnumerable<Regex> _ProductRegex;
         private readonly IEnumerable<Regex> _CategoryRegex;
-        public Pages(IEnumerable<string> categoryRegularExpresions, IEnumerable<string> productRegularExpresions, ILog logger)
+        public Pages(string mainPage, IEnumerable<string> categoryRegularExpresions, IEnumerable<string> productRegularExpresions, ILog logger)
         {
+            _Host = mainPage;
             _AllHistoryPages = new HashSet<string>();
             _CategoryPages = new ConcurrentQueue<Page>();
             _ProductPages = new ConcurrentQueue<Page>();
@@ -31,7 +33,7 @@ namespace Crawler
         private IEnumerable<Regex> InitialRegex(IEnumerable<string> regularExpresions)
         {
             IList<Regex> regex = new List<Regex>();
-            foreach(string regularExpresion in regularExpresions)
+            foreach (string regularExpresion in regularExpresions)
             {
                 try
                 {
@@ -47,6 +49,7 @@ namespace Crawler
 
         public void AddPage(string url)
         {
+            url = GetAbsoluteUrl(url);
             if (_AllHistoryPages.Add(url))
             {
                 Page page = new Page(url);
@@ -64,10 +67,36 @@ namespace Crawler
             }
         }
 
+        public void AddCategoryPage(string url)
+        {
+            url = GetAbsoluteUrl(url);
+            if (_AllHistoryPages.Add(url))
+            {
+                Page page = new Page(url)
+                {
+                    CategoryPage = true
+                };
+                _CategoryPages.Enqueue(page);
+            }
+        }
+
+        public void AddProductPage(string url)
+        {
+            url = GetAbsoluteUrl(url);
+            if (_AllHistoryPages.Add(url))
+            {
+                Page page = new Page(url)
+                {
+                    ProductPage = true
+                };
+                _ProductPages.Enqueue(page);
+            }
+        }
+
         private bool IsProductOrCategoryPage(Page page)
         {
             bool result = false;
-            foreach(Regex regex in _ProductRegex)
+            foreach (Regex regex in _ProductRegex)
             {
                 if (regex.IsMatch(page.Url))
                 {
@@ -87,7 +116,7 @@ namespace Crawler
                 }
             }
 
-            if(result==false && !_ProductRegex.Any() && !_CategoryRegex.Any())
+            if (result == false && !_ProductRegex.Any() && !_CategoryRegex.Any())
             {
                 page.ProductPage = true;
                 page.CategoryPage = true;
@@ -123,6 +152,34 @@ namespace Crawler
         public Page GetNextPage()
         {
             return GetNextProductPage() ?? GetNextCategoryPage();
+        }
+
+        public bool TryGetPage(out Page page)
+        {
+            if (_ProductPages.TryDequeue(out page))
+            {
+                return true;
+            }
+
+            if (_CategoryPages.TryDequeue(out page))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private string GetAbsoluteUrl(string url)
+        {
+            url = url.ToLower();
+            if(url.StartsWith("https://") || url.StartsWith("http://"))
+            {
+                return url;
+            }
+            else
+            {
+                return _Host.Substring(0,_Host.Length-2) + url;
+            }
         }
     }
 }

@@ -12,16 +12,20 @@ namespace Crawler.Model
         [XmlArrayItem("Page")]
         public List<string> NextCategoryPages { get; set; }
 
-        [XmlArray("NextCategoryRegex")]
-        [XmlArrayItem("Regex")]
-        public List<string> NextCategoryRegex { get; set; }
-
-        [XmlArray("NextProductPage")]
+        [XmlArray("NextProductPages")]
         [XmlArrayItem("Page")]
-        public List<string> NextProductPage { get; set; }
+        public List<string> NextProductPages { get; set; }
 
-        [XmlArray("NextProductRegex")]
+        [XmlArray("NextPages")]
+        [XmlArrayItem("Page")]
+        public List<string> NextPages { get; set; }
+
+        [XmlArray("CategoryRegex")]
         [XmlArrayItem("Regex")]
-        public List<string> NextProductRegex { get; set; }
+        public List<string> CategoryRegex { get; set; }
+
+        [XmlArray("ProductRegex")]
+        [XmlArrayItem("Regex")]
+        public List<string> ProductRegex { get; set; }
     }
 }
